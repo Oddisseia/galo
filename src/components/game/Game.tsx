@@ -2,12 +2,16 @@ import {Square} from "../square/Square.tsx";
 import {ReactElement, useState} from "react";
 import "./Game.scss";
 
-export const Game = (): ReactElement => {
+interface GameProps {callback: (squares: string[], xIsNext: boolean) => void}
+
+export const Game = ({callback}: GameProps): ReactElement => {
     const [xIsNext, setXIsNext] = useState<boolean>(true);
     const [squares, setSquares] = useState<string[]>(Array(9).fill(null));
 
     const handleClick = (index: number): void => {
         if (squares[index] || calculateWinner(squares)) { return; }
+
+        callback([...squares], xIsNext);
 
         const squaresClone: string[] = [...squares];
         squaresClone[index] = xIsNext ? 'X' : 'O';
