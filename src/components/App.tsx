@@ -1,7 +1,7 @@
 import './App.scss'
-import {Board} from "./table/Board.tsx";
 import {ReactElement} from "react";
+import {GameBoard} from "./game-board/Game-board.tsx";
 
-const App = (): ReactElement => <Board/>;
+const App = (): ReactElement => <GameBoard/>;
 
 export default App

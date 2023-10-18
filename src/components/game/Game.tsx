@@ -1,27 +1,33 @@
 import {Square} from "../square/Square.tsx";
 import {ReactElement, useState} from "react";
-import "./Board.scss";
+import "./Game.scss";
 
-export const Board = (): ReactElement => {
+export const Game = (): ReactElement => {
     const [xIsNext, setXIsNext] = useState<boolean>(true);
     const [squares, setSquares] = useState<string[]>(Array(9).fill(null));
 
     const handleClick = (index: number): void => {
         if (squares[index] || calculateWinner(squares)) { return; }
 
-        const squaresClone: string[] = squares.slice();
+        const squaresClone: string[] = [...squares];
         squaresClone[index] = xIsNext ? 'X' : 'O';
 
         setSquares(squaresClone);
         setXIsNext(!xIsNext);
     };
+
     const status = (): string => {
         const winner: string | null = calculateWinner(squares);
         if (winner) {
-            return  "Winner: " + winner;
+            return "Winner: " + winner;
         }
-            return  "Next player: " + (xIsNext ? "X" : "O");
+        return "Next player: " + (xIsNext ? "X" : "O");
     }
+
+    const restartGame = (): void => {
+        setSquares([]);
+        setXIsNext(true);
+    };
 
     return (
         <>
@@ -42,6 +48,8 @@ export const Board = (): ReactElement => {
                 <Square value={squares[7]} onSquareClick={() => handleClick(7)}/>
                 <Square value={squares[8]} onSquareClick={() => handleClick(8)}/>
             </div>
+
+            <button className="restart" onClick={() => restartGame()}>RESTART</button>
         </>
     );
 };
