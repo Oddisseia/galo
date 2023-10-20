@@ -1,17 +1,26 @@
 import {Square} from "../square/Square.tsx";
-import {ReactElement, useState} from "react";
+import {ReactElement, useEffect, useState} from "react";
 import "./Game.scss";
+import {LastPlay} from "../game-board/Game-board.tsx";
 
-interface GameProps {callback: (squares: string[], xIsNext: boolean) => void}
+interface GameProps {
+    sendGameState: (squares: string[], xIsNext: boolean) => void,
+    resetHistory: () => void,
+    lastPlay: LastPlay
+}
 
-export const Game = ({callback}: GameProps): ReactElement => {
+export const Game = ({
+                         sendGameState,
+                         resetHistory,
+                         lastPlay
+                     }: GameProps): ReactElement => {
     const [xIsNext, setXIsNext] = useState<boolean>(true);
     const [squares, setSquares] = useState<string[]>(Array(9).fill(null));
 
     const handleClick = (index: number): void => {
         if (squares[index] || calculateWinner(squares)) { return; }
 
-        callback([...squares], xIsNext);
+        sendGameState([...squares], xIsNext);
 
         const squaresClone: string[] = [...squares];
         squaresClone[index] = xIsNext ? 'X' : 'O';
@@ -29,9 +38,15 @@ export const Game = ({callback}: GameProps): ReactElement => {
     }
 
     const restartGame = (): void => {
-        setSquares([]);
+        setSquares(Array(9).fill(null));
         setXIsNext(true);
+        resetHistory();
     };
+
+    useEffect(() => {
+        setSquares([...lastPlay.board]);
+        setXIsNext(lastPlay.xTurn);
+    }, [lastPlay]);
 
     return (
         <>

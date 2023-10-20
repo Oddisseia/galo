@@ -1,0 +1,47 @@
+.history-container {
+	padding-top: 34px;
+	margin-left: 10px;
+
+	button {
+		width: 100%;
+	}
+
+	.previous-play {
+		width: 88px;
+		height: 98px;
+		border: 1px solid white;
+		background-color: white;
+		color: #242424;
+		padding: 0 18px 0 18px;
+
+		.title {
+			font-weight: bold;
+		}
+
+		.row {
+			width: 64px;
+
+			.square {
+				width: 21px;
+				height: 21px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.middle {
+				border-left: 1px solid black;
+				border-right: 1px solid black;
+			}
+		}
+	}
+
+	.border-bottom {
+		border-bottom: 1px solid black;
+	}
+
+	.margin-left {
+		margin-left: 12.5px;
+	}
+}
+
